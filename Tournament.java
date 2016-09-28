@@ -10,16 +10,16 @@ public class Tournament implements ILock {
         System.out.println("Running Tournament");
         level = Helper.log(2, ApplicationRunner.getTotalThreads());
         internalThreadLocks = (int) Math.pow(2, level) - 1;
-        petersonLock = new Peterson[internalThreadLocks + 1];
-        for (Peterson peterson : petersonLock)
-            peterson = new Peterson();
+        petersonLock = new Peterson[internalThreadLocks+1];
+        for (int i = 0; i < petersonLock.length; i++)
+            petersonLock[i] = new Peterson();
     }
 
 
     @Override
     public void csLock(ApplicationThread applicationThread) {
         int tournamentThreadId = applicationThread.getThreadId() + internalThreadLocks;
-        for (int i = level - 1; i >= 0; i--) {
+        for (int i = 1; i <= level; i++) {
             applicationThread.petersonThreadId[i] = tournamentThreadId % 2;
             tournamentThreadId /= 2;
             petersonLock[tournamentThreadId].lock(applicationThread.petersonThreadId[i]);
@@ -29,7 +29,7 @@ public class Tournament implements ILock {
     @Override
     public void csUnlock(ApplicationThread applicationThread) {
         int tournamentThreadId = 1;
-        for (int i = level - 1; i > 0; i--) {
+        for (int i = level; i >= 1; i--) {
             petersonLock[tournamentThreadId].unlock(applicationThread.petersonThreadId[i]);
             tournamentThreadId = (2 * tournamentThreadId) + applicationThread.petersonThreadId[i];
         }

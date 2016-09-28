@@ -5,16 +5,16 @@ public class ApplicationThread implements Runnable {
 
     private int threadId;
     public int[] petersonThreadId;
-    private Application application;
+    private ThreadController threadController;
 
-    public ApplicationThread(int threadId, Application application) {
-        this.application = application;
-        petersonThreadId = new int[Helper.log(2, ApplicationRunner.getTotalThreads())];
+    public ApplicationThread(int threadId, ThreadController threadController) {
+        this.threadController = threadController;
+        petersonThreadId = new int[Helper.log(2, ApplicationRunner.getTotalThreads()) + 1];
         this.threadId = threadId;
     }
 
-    public void setApplicationRunner(Application application) {
-        this.application = application;
+    public void setApplicationRunner(ThreadController threadController) {
+        this.threadController = threadController;
     }
 
     @Override
@@ -23,9 +23,9 @@ public class ApplicationThread implements Runnable {
             //Thread.sleep(Helper.Thread_INITIAL_DELAY);
 
             for (int i = 0; i < ApplicationRunner.getMaxRequestCount(); i++) {
-                application.csLock(this);
-                application.executeCriticalSection();
-                application.csUnlock(this);
+                threadController.csLock(this);
+                threadController.executeCriticalSection();
+                threadController.csUnlock(this);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

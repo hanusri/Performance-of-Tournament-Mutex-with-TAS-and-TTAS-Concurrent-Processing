@@ -21,17 +21,23 @@ public class ApplicationRunner {
     public static void main(String[] args) {
         if (args.length != 2)
             System.out.print("Invalid Arguments passed. Please pass two arguments. " +
-                    "First argument either 0(Tournament) or 1(TAS) or 2(TTAS) and second argument as number of threads to run");
+                    "First argument determines number of threads and second argument determines number of requests");
 
         try {
-            maxRequestCount = Helper.REQUEST_COUNT;
-            mutualExclusionService = args[0].equals(Helper.TOURNAMENT_CODE) ? MutualExclusionService.TOURNAMENT
-                    : args[0].equals(Helper.TAS_CODE) ? MutualExclusionService.TAS : MutualExclusionService.TTAS;
+            maxRequestCount = Integer.parseInt(args[1]);
+            totalThreads = Integer.parseInt(args[0]);
 
-            totalThreads = Integer.parseInt(args[1]);
+            mutualExclusionService = MutualExclusionService.TOURNAMENT;
+            ThreadController threadController = new ThreadController();
+            threadController.start();
 
-            Application application = new Application();
-            application.start();
+            mutualExclusionService = MutualExclusionService.TAS;
+            threadController = new ThreadController();
+            threadController.start();
+
+            mutualExclusionService = MutualExclusionService.TTAS;
+            threadController = new ThreadController();
+            threadController.start();
 
         } catch (Exception ex) {
             ex.printStackTrace();

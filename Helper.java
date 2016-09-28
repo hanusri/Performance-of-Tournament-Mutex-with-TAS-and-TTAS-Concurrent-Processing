@@ -3,7 +3,6 @@
  */
 public class Helper {
     public static final int Thread_INITIAL_DELAY = 1000;
-    public static final int REQUEST_COUNT = 10000000;
     public static final String TOURNAMENT_CODE = "0";
     public static final String TAS_CODE = "1";
 

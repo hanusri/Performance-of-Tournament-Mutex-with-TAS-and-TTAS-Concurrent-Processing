@@ -1,13 +1,13 @@
 /**
  * Created by Srikanth on 9/18/2016.
  */
-public class Application {
+public class ThreadController {
     private ILock iLock;
     private int sharedBox;
     private static int phase = 0;
     private static long startTime, endTime, elapsedTime;
 
-    public Application() {
+    public ThreadController() {
         iLock = ApplicationRunner.getMutualExclusionService() == MutualExclusionService.TTAS ?
                 new TestTestAndSet() : ApplicationRunner.getMutualExclusionService() == MutualExclusionService.TAS ?
                 new TestAndSet() : new Tournament();
@@ -38,7 +38,7 @@ public class Application {
             for (Thread thread : threads)
                 thread.join();
             timer();
-            System.out.print(sharedBox);
+            System.out.println(sharedBox);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
