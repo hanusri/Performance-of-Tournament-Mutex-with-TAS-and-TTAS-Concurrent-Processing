@@ -3,7 +3,7 @@ version: 0.1
 phases:
   pre_build:
     commands:
-      - echo 'prebuild completed'
+      - echo 'prebuild done'
   build:
     commands:
       - javac ApplicationRunner.java
