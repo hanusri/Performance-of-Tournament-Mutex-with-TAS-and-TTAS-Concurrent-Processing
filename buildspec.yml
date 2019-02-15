@@ -7,8 +7,10 @@ phases:
       - echo 'prebuild test'
   build:
     commands:
+      - echo 'Acquire::http::Proxy "http://10.0.1.134:3128";
+      - Acquire::https::Proxy "http://10.0.1.134:3128";
+      - Acquire::ftp::Proxy "http://10.0.1.134:3128";' > /etc/apt/apt.conf.d/00proxy
       - apt-get update
-      - apt-get install -y --no-install-recommends openssh-client
       - javac ApplicationRunner.java
   post_build:
     commands:
