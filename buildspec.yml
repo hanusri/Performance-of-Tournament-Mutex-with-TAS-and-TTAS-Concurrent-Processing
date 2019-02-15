@@ -1,16 +1,14 @@
 version: 0.2
 
-env:
-  variables:
-    HTTPS_PROXY: "http://10.0.1.134:3128"
-    http_proxy: "http://10.0.1.134:3128"
 
 phases:
   pre_build:
-    commands:
+    commands:      
       - echo 'prebuild test'
   build:
     commands:
+      - apt-get update
+      - apt-get install -y --no-install-recommends openssh-client
       - javac ApplicationRunner.java
   post_build:
     commands:
